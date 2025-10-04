@@ -4,7 +4,7 @@ import { updateBattleLogs, updateCardMaster, updatePlayerStats } from './model';
 async function main() {
 
     // カードマスターを更新
-    await updateCardMaster();
+    // await updateCardMaster();
 
     // プレイヤーIDリストを取得
     const playerIds = await getPlayerIds();
