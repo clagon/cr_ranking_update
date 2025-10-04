@@ -162,7 +162,7 @@ export interface GameMode {
 export interface Player {
     tag: string;
     name: string;
-    trophyChange?: number; // opponentには存在しないためオプショナル
+    trophyChange?: number; // opponentには存在しないため、オプショナル
     crowns: number;
     kingTowerHitPoints: number;
     princessTowersHitPoints: null;
@@ -170,7 +170,7 @@ export interface Player {
     supportCards: SupportCard[];
     globalRank: null;
     elixirLeaked: number;
-    clan?: Clan; // teamには存在しないためオプショナル
+    clan?: Clan; // teamには存在しないため、オプショナル
 }
 
 
@@ -180,7 +180,7 @@ export interface BattleCard {
     level: number;
     maxLevel: number;
     rarity: string;
-    elixirCost?: number; // Mirrorなど一部のカードには存在しない
+    elixirCost?: number; // Mirrorなど、一部のカードには存在しない
     iconUrls: IconUrls;
     evolutionLevel?: number;
     maxEvolutionLevel?: number;

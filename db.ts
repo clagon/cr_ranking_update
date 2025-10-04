@@ -8,26 +8,28 @@ const client = postgres(process.env.DATABASE_URL);
 
 export const db = drizzle(client, { schema });
 
-export async function getPlayerIds() {
-    return (await db.select({ id: schema.mPlayer.id })
+/**
+ * プレイヤーIDを取得します。
+ * @param options オプション。forBattleLogがtrueの場合、バトルログが必要なプレイヤーのみを対象とします。
+ * @returns プレイヤーIDの配列。
+ */
+export async function getPlayerIds(options: { forBattleLog?: boolean } = {}) {
+    const conditions = [eq(schema.mPlayer.active, true)];
+    if (options.forBattleLog) {
+        conditions.push(eq(schema.mPlayer.needBattlelog, true));
+    }
+
+    const query = db.select({ id: schema.mPlayer.id })
         .from(schema.mPlayer)
-        .where(eq(schema.mPlayer.active, true)))
-        .map((row: { id: string }) => row.id);
+        .where(and(...conditions));
+
+    return (await query).map((row: { id: string }) => row.id);
 }
 
-export async function getPlayerIdsForBattleLog() {
-    return (await db.select({ id: schema.mPlayer.id })
-        .from(schema.mPlayer)
-        .where(
-            and(
-                eq(schema.mPlayer.active, true),
-                eq(schema.mPlayer.needBattlelog, true)
-            )
-        ))
-        .map((row: { id: string }) => row.id);
-}
-
-
+/**
+ * プレイヤーの統計情報をデータベースに挿入または更新（Upsert）します。
+ * @param playerStats 挿入または更新するプレイヤー統計情報の配列。
+ */
 export function upsertPlayerStats(playerStats: typeof schema.mPlayerStats.$inferInsert[]) {
     return db.insert(schema.mPlayerStats)
         .values(playerStats)
@@ -52,6 +54,10 @@ export function upsertPlayerStats(playerStats: typeof schema.mPlayerStats.$infer
         });
 }
 
+/**
+ * 対戦ログをデータベースに挿入します。競合した場合は何もしません。
+ * @param battleLogs 挿入する対戦ログの配列。
+ */
 export function insertBattleLogs(battleLogs: typeof schema.tBattleLog.$inferInsert[]) {
     return db.insert(schema.tBattleLog)
         .values(battleLogs)
@@ -63,6 +69,10 @@ export function insertBattleLogs(battleLogs: typeof schema.tBattleLog.$inferInse
         });
 }
 
+/**
+ * カード情報をデータベースに挿入または更新（Upsert）します。
+ * @param cards 挿入または更新するカード情報の配列。
+ */
 export async function upsertCards(cards: typeof schema.mCard.$inferInsert[]) {
     return db.insert(schema.mCard)
         .values(cards)
@@ -77,6 +87,10 @@ export async function upsertCards(cards: typeof schema.mCard.$inferInsert[]) {
         });
 }
 
+/**
+ * 日本語名を含むカード情報をデータベースに挿入または更新（Upsert）します。
+ * @param cards 挿入または更新するカード情報の配列。
+ */
 export async function upsertCardsWithJP(cards: typeof schema.mCard.$inferInsert[]) {
     return db.insert(schema.mCard)
         .values(cards)
@@ -91,6 +105,10 @@ export async function upsertCardsWithJP(cards: typeof schema.mCard.$inferInsert[
         });
 }
 
+/**
+ * サポートカード情報をデータベースに挿入または更新（Upsert）します。
+ * @param supportCards 挿入または更新するサポートカード情報の配列。
+ */
 export async function upsertSupportCards(supportCards: typeof schema.mSupportCard.$inferInsert[]) {
     return db.insert(schema.mSupportCard)
         .values(supportCards)
@@ -104,6 +122,10 @@ export async function upsertSupportCards(supportCards: typeof schema.mSupportCar
         });
 }
 
+/**
+ * 日本語名を含むサポートカード情報をデータベースに挿入または更新（Upsert）します。
+ * @param supportCards 挿入または更新するサポートカード情報の配列。
+ */
 export async function upsertSupportCardsWithJP(supportCards: typeof schema.mSupportCard.$inferInsert[]) {
     return db.insert(schema.mSupportCard)
         .values(supportCards)
@@ -117,10 +139,18 @@ export async function upsertSupportCardsWithJP(supportCards: typeof schema.mSupp
         });
 }
 
+/**
+ * データベースからすべてのカード情報を取得します。
+ * @returns カード情報の配列。
+ */
 export async function getCards() {
     return db.select().from(schema.mCard)
 }
 
+/**
+ * データベースからすべてのサポートカード情報を取得します。
+ * @returns サポートカード情報の配列。
+ */
 export async function getSupportCards() {
     return db.select().from(schema.mSupportCard)
 }

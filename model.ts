@@ -3,29 +3,34 @@ import { setTimeout } from 'timers/promises';
 import { insertBattleLogs, upsertCards, upsertPlayerStats, upsertSupportCards } from './db';
 import { getBattleLog as getBattleLogs, getCards, getPlayerInfo } from './api';
 import { battleLogToBattleLogInsert, cardsToCardInserts, playerInfoToPlayerStats, supportCardsToSupportCardInserts } from './utils';
-import { CardInfo } from './type';
 
+/**
+ * カードマスターデータを更新します。APIからカード情報を取得し、データベースを更新します。
+ */
 export async function updateCardMaster() {
-    // データ取得
-    const cardsResponse = await getCards();
-    const cards = cardsResponse.items;
-    const supportCards = cardsResponse.supportItems;
-
-    // マスターデータの生成
-    const cardInserts = cardsToCardInserts(cardsResponse);
-    const supportCardInserts = supportCardsToSupportCardInserts(cardsResponse);
-
-    // 一括更新
     try {
+        // データ取得
+        const cardsResponse = await getCards();
+
+        // マスターデータの生成
+        const cardInserts = cardsToCardInserts(cardsResponse);
+        const supportCardInserts = supportCardsToSupportCardInserts(cardsResponse);
+
+        // 一括更新
         await upsertCards(cardInserts);
         console.log(`Updated ${cardInserts.length} cards`);
         await upsertSupportCards(supportCardInserts);
         console.log(`Updated ${supportCardInserts.length} support cards`);
-    } catch (error: any) {
-        console.error(`Failed to update card master: ${error.message}`);
+    } catch (error) {
+        console.error(`Failed to update card master:`, error);
+        throw error;
     }
 }
 
+/**
+ * 指定されたプレイヤーIDのプレイヤー統計情報を更新します。
+ * @param playerIds 更新するプレイヤーのIDの配列。
+ */
 export async function updatePlayerStats(playerIds: string[]) {
     // 更新するプレイヤーデータの配列
     const playerDataToUpdate: typeof schema.mPlayerStats.$inferInsert[] = [];
@@ -34,9 +39,9 @@ export async function updatePlayerStats(playerIds: string[]) {
     for (const playerId of playerIds) {
         try {
             const playerInfo = await getPlayerInfo(playerId);
-            playerDataToUpdate.push(playerInfoToPlayerStats(playerInfo))
-        } catch (error: any) {
-            console.error(`Failed to update player stats for ${playerId}: ${error.message}`);
+            playerDataToUpdate.push(playerInfoToPlayerStats(playerInfo));
+        } catch (error) {
+            console.error(`Failed to get player stats for ${playerId}:`, error);
         }
 
         await setTimeout(1000); // 1秒待機
@@ -45,18 +50,23 @@ export async function updatePlayerStats(playerIds: string[]) {
     // 更新するデータがない場合は終了
     if (playerDataToUpdate.length === 0) {
         console.log('No player stats to update.');
-        process.exit(0);
+        return;
     }
 
     // 一括更新
     try {
         await upsertPlayerStats(playerDataToUpdate);
-        console.log(`Updated player stats`);
-    } catch (error: any) {
-        console.error(`Failed to update player stats: ${error.message}`);
+        console.log(`Updated player stats for ${playerDataToUpdate.length} players.`);
+    } catch (error) {
+        console.error(`Failed to upsert player stats:`, error);
+        throw error; // エラーを再スローして呼び出し元に伝える
     }
 }
 
+/**
+ * 指定されたプレイヤーIDの対戦ログを更新します。
+ * @param playerIds 更新するプレイヤーのIDの配列。
+ */
 export async function updateBattleLogs(playerIds: string[]) {
     // 更新するバトルログデータの配列
     const battleLogDataToInsert: typeof schema.tBattleLog.$inferInsert[] = [];
@@ -65,10 +75,14 @@ export async function updateBattleLogs(playerIds: string[]) {
         try {
             const battleLogs = await getBattleLogs(playerId);
             battleLogs.filter(log => log.type === 'pathOfLegend').forEach(log => {
-                battleLogDataToInsert.push(battleLogToBattleLogInsert(log));
+                try {
+                    battleLogDataToInsert.push(battleLogToBattleLogInsert(log));
+                } catch (error) {
+                    console.error(`Failed to convert battle log for player ${playerId}:`, error);
+                }
             });
-        } catch (error: any) {
-            console.error(`Failed to update battle logs for ${playerId}: ${error.message}`);
+        } catch (error) {
+            console.error(`Failed to get battle logs for ${playerId}:`, error);
         }
 
         await setTimeout(1000); // 1秒待機
@@ -76,15 +90,16 @@ export async function updateBattleLogs(playerIds: string[]) {
 
     // 更新するデータがない場合は終了
     if (battleLogDataToInsert.length === 0) {
-        console.log('No battle logs to update.');
-        process.exit(0);
+        console.log('No battle logs to insert.');
+        return;
     }
 
     // 一括更新
     try {
         await insertBattleLogs(battleLogDataToInsert);
-        console.log(`Updated battle logs`);
-    } catch (error: any) {
-        console.error(`Failed to update battle logs: ${error.message}`);
+        console.log(`Inserted ${battleLogDataToInsert.length} battle logs.`);
+    } catch (error) {
+        console.error(`Failed to insert battle logs:`, error);
+        throw error;
     }
 }

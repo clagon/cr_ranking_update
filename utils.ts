@@ -1,11 +1,26 @@
 import * as schema from './drizzle/schema';
 import { BattleLog, CardsResponse, PlayerInfo } from './type';
 
+
+/**
+ * タグから '#' を削除します。
+ * @param tag プレイヤーまたはクランのタグ。
+ * @returns '#' が削除されたタグ。
+ */
+function cleanTag(tag: string): string {
+    return tag.replace('#', '');
+}
+
+/**
+ * PlayerInfoオブジェクトをmPlayerStatsテーブルの挿入形式に変換します。
+ * @param playerInfo プレイヤー情報。
+ * @returns 挿入形式のプレイヤー統計情報。
+ */
 export function playerInfoToPlayerStats(playerInfo: PlayerInfo): typeof schema.mPlayerStats.$inferInsert {
     return {
-        playerId: playerInfo.tag.replace('#', ''),
+        playerId: cleanTag(playerInfo.tag),
         name: playerInfo.name,
-        clanId: playerInfo.clan ? playerInfo.clan.tag : null,
+        clanId: playerInfo.clan ? cleanTag(playerInfo.clan.tag) : null,
         clanName: playerInfo.clan ? playerInfo.clan.name : null,
         currentTrophies: playerInfo.trophies,
         bestTrophies: playerInfo.bestTrophies,
@@ -21,6 +36,11 @@ export function playerInfoToPlayerStats(playerInfo: PlayerInfo): typeof schema.m
     }
 }
 
+/**
+ * BattleLogオブジェクトをtBattleLogテーブルの挿入形式に変換します。
+ * @param battleLog 対戦ログ情報。
+ * @returns 挿入形式の対戦ログ情報。
+ */
 export function battleLogToBattleLogInsert(battleLog: BattleLog): typeof schema.tBattleLog.$inferInsert {
 
     const teamPlayer = battleLog.team[0];
@@ -34,7 +54,7 @@ export function battleLogToBattleLogInsert(battleLog: BattleLog): typeof schema.
     }
 
     return {
-        teamId: teamPlayer.tag.replace('#', ''),
+        teamId: cleanTag(teamPlayer.tag),
         teamCrown: teamPlayer.crowns,
         teamCard1: teamCards[0],
         teamCard2: teamCards[1],
@@ -46,7 +66,7 @@ export function battleLogToBattleLogInsert(battleLog: BattleLog): typeof schema.
         teamCard8: teamCards[7],
         teamSupportCard: teamPlayer.supportCards[0].id,
         teamRank: teamPlayer.globalRank || null,
-        opponentId: opponentPlayer.tag.replace('#', ''),
+        opponentId: cleanTag(opponentPlayer.tag),
         opponentName: opponentPlayer.name,
         opponentCrown: opponentPlayer.crowns,
         opponentCard1: opponentCards[0],
@@ -61,13 +81,18 @@ export function battleLogToBattleLogInsert(battleLog: BattleLog): typeof schema.
         opponentRank: opponentPlayer.globalRank || null,
         league: battleLog.leagueNumber,
         battleTime: battleLog.battleTime,
-        opponentClanId: opponentPlayer.clan ? opponentPlayer.clan.tag.replace('#', '') : null,
+        opponentClanId: opponentPlayer.clan ? cleanTag(opponentPlayer.clan.tag) : null,
         opponentClanName: opponentPlayer.clan ? opponentPlayer.clan.name : null,
-        teamClanId: teamPlayer.clan ? teamPlayer.clan.tag.replace('#', '') : null,
+        teamClanId: teamPlayer.clan ? cleanTag(teamPlayer.clan.tag) : null,
         teamClanName: teamPlayer.clan ? teamPlayer.clan.name : null,
     };
 }
 
+/**
+ * CardsResponseオブジェクトをmCardテーブルの挿入形式の配列に変換します。
+ * @param cardsResponse カード情報のレスポンス。
+ * @returns 挿入形式のカード情報の配列。
+ */
 export function cardsToCardInserts(cardsResponse: CardsResponse): typeof schema.mCard.$inferInsert[] {
     return cardsResponse.items.map(card => ({
         id: card.id,
@@ -76,6 +101,12 @@ export function cardsToCardInserts(cardsResponse: CardsResponse): typeof schema.
         elixir: card.elixirCost || null,
     }));
 }
+
+/**
+ * CardsResponseオブジェクトをmSupportCardテーブルの挿入形式の配列に変換します。
+ * @param cardsResponse カード情報のレスポンス。
+ * @returns 挿入形式のサポートカード情報の配列。
+ */
 export function supportCardsToSupportCardInserts(cardsResponse: CardsResponse): typeof schema.mSupportCard.$inferInsert[] {
     return cardsResponse.supportItems.map(card => ({
         id: card.id,
