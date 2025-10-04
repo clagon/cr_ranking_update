@@ -70,7 +70,7 @@ export async function upsertCards(cards: typeof schema.mCard.$inferInsert[]) {
             target: schema.mCard.id,
             set: {
                 name: sql.raw(`excluded.${schema.mCard.name.name}`),
-                nameJp: sql.raw(`excluded.${schema.mCard.nameJp.name}`),
+                // nameJp: sql.raw(`excluded.${schema.mCard.nameJp.name}`),
                 rarity: sql.raw(`excluded.${schema.mCard.rarity.name}`),
                 elixir: sql.raw(`excluded.${schema.mCard.elixir.name}`),
             }
@@ -84,7 +84,7 @@ export async function upsertSupportCards(supportCards: typeof schema.mSupportCar
             target: schema.mSupportCard.id,
             set: {
                 name: sql.raw(`excluded.${schema.mSupportCard.name.name}`),
-                nameJp: sql.raw(`excluded.${schema.mSupportCard.nameJp.name}`),
+                // nameJp: sql.raw(`excluded.${schema.mSupportCard.nameJp.name}`),
                 rarity: sql.raw(`excluded.${schema.mSupportCard.rarity.name}`),
             }
         });
