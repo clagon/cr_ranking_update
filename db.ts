@@ -77,6 +77,20 @@ export async function upsertCards(cards: typeof schema.mCard.$inferInsert[]) {
         });
 }
 
+export async function upsertCardsWithJP(cards: typeof schema.mCard.$inferInsert[]) {
+    return db.insert(schema.mCard)
+        .values(cards)
+        .onConflictDoUpdate({
+            target: schema.mCard.id,
+            set: {
+                name: sql.raw(`excluded.${schema.mCard.name.name}`),
+                nameJp: sql.raw(`excluded.${schema.mCard.nameJp.name}`),
+                rarity: sql.raw(`excluded.${schema.mCard.rarity.name}`),
+                elixir: sql.raw(`excluded.${schema.mCard.elixir.name}`),
+            }
+        });
+}
+
 export async function upsertSupportCards(supportCards: typeof schema.mSupportCard.$inferInsert[]) {
     return db.insert(schema.mSupportCard)
         .values(supportCards)
@@ -85,6 +99,19 @@ export async function upsertSupportCards(supportCards: typeof schema.mSupportCar
             set: {
                 name: sql.raw(`excluded.${schema.mSupportCard.name.name}`),
                 // nameJp: sql.raw(`excluded.${schema.mSupportCard.nameJp.name}`),
+                rarity: sql.raw(`excluded.${schema.mSupportCard.rarity.name}`),
+            }
+        });
+}
+
+export async function upsertSupportCardsWithJP(supportCards: typeof schema.mSupportCard.$inferInsert[]) {
+    return db.insert(schema.mSupportCard)
+        .values(supportCards)
+        .onConflictDoUpdate({
+            target: schema.mSupportCard.id,
+            set: {
+                name: sql.raw(`excluded.${schema.mSupportCard.name.name}`),
+                nameJp: sql.raw(`excluded.${schema.mSupportCard.nameJp.name}`),
                 rarity: sql.raw(`excluded.${schema.mSupportCard.rarity.name}`),
             }
         });

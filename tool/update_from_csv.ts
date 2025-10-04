@@ -1,6 +1,6 @@
 import csv from "csv-parser";
 import * as fs from "fs";
-import { getCards, getSupportCards, upsertCards, upsertSupportCards } from "../db";
+import { getCards, getSupportCards, upsertCardsWithJP, upsertSupportCardsWithJP } from "../db";
 import path from "path";
 
 const results: any = [];
@@ -22,8 +22,8 @@ Promise.all(
                         card.nameJp = results.find((r: any) => r.EN === card.name).JP;
                     }
                 })
-
-                return upsertCards(cards)
+                console.log(cards);
+                return upsertCardsWithJP(cards)
             })
             .then(() => {
                 console.log('Done updating cards');
@@ -36,7 +36,7 @@ Promise.all(
                     }
                 })
 
-                return upsertSupportCards(cards)
+                return upsertSupportCardsWithJP(cards)
             })
             .then(() => {
                 console.log('Done updating support cards');
