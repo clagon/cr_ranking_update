@@ -1,0 +1,729 @@
+{
+  "id": "00000000-0000-0000-0000-000000000000",
+  "prevId": "",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.t_battle_log": {
+      "name": "t_battle_log",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "team_id": {
+          "name": "team_id",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "team_crown": {
+          "name": "team_crown",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "team_card_1": {
+          "name": "team_card_1",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "team_card_2": {
+          "name": "team_card_2",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "team_card_3": {
+          "name": "team_card_3",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "team_card_4": {
+          "name": "team_card_4",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "team_card_5": {
+          "name": "team_card_5",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "team_card_6": {
+          "name": "team_card_6",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "team_card_7": {
+          "name": "team_card_7",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "team_card_8": {
+          "name": "team_card_8",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "team_support_card": {
+          "name": "team_support_card",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "team_rank": {
+          "name": "team_rank",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "opponent_id": {
+          "name": "opponent_id",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "opponent_name": {
+          "name": "opponent_name",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "opponent_crown": {
+          "name": "opponent_crown",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "opponent_card_1": {
+          "name": "opponent_card_1",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "opponent_card_2": {
+          "name": "opponent_card_2",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "opponent_card_3": {
+          "name": "opponent_card_3",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "opponent_card_4": {
+          "name": "opponent_card_4",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "opponent_card_5": {
+          "name": "opponent_card_5",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "opponent_card_6": {
+          "name": "opponent_card_6",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "opponent_card_7": {
+          "name": "opponent_card_7",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "opponent_card_8": {
+          "name": "opponent_card_8",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "opponent_support_card": {
+          "name": "opponent_support_card",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "opponent_rank": {
+          "name": "opponent_rank",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "league": {
+          "name": "league",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "battle_time": {
+          "name": "battle_time",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "opponent_clan_id": {
+          "name": "opponent_clan_id",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "opponent_clan_name": {
+          "name": "opponent_clan_name",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "team_clan_name": {
+          "name": "team_clan_name",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "team_clan_id": {
+          "name": "team_clan_id",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "t_battle_log_team_id_fkey": {
+          "name": "t_battle_log_team_id_fkey",
+          "tableFrom": "t_battle_log",
+          "tableTo": "m_player",
+          "schemaTo": "public",
+          "columnsFrom": [
+            "team_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "t_battle_log_team_card_1_fkey": {
+          "name": "t_battle_log_team_card_1_fkey",
+          "tableFrom": "t_battle_log",
+          "tableTo": "m_card",
+          "schemaTo": "public",
+          "columnsFrom": [
+            "team_card_1"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "t_battle_log_team_card_2_fkey": {
+          "name": "t_battle_log_team_card_2_fkey",
+          "tableFrom": "t_battle_log",
+          "tableTo": "m_card",
+          "schemaTo": "public",
+          "columnsFrom": [
+            "team_card_2"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "t_battle_log_team_card_3_fkey": {
+          "name": "t_battle_log_team_card_3_fkey",
+          "tableFrom": "t_battle_log",
+          "tableTo": "m_card",
+          "schemaTo": "public",
+          "columnsFrom": [
+            "team_card_3"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "t_battle_log_team_card_4_fkey": {
+          "name": "t_battle_log_team_card_4_fkey",
+          "tableFrom": "t_battle_log",
+          "tableTo": "m_card",
+          "schemaTo": "public",
+          "columnsFrom": [
+            "team_card_4"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "t_battle_log_team_card_5_fkey": {
+          "name": "t_battle_log_team_card_5_fkey",
+          "tableFrom": "t_battle_log",
+          "tableTo": "m_card",
+          "schemaTo": "public",
+          "columnsFrom": [
+            "team_card_5"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "t_battle_log_team_card_6_fkey": {
+          "name": "t_battle_log_team_card_6_fkey",
+          "tableFrom": "t_battle_log",
+          "tableTo": "m_card",
+          "schemaTo": "public",
+          "columnsFrom": [
+            "team_card_6"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "t_battle_log_team_card_7_fkey": {
+          "name": "t_battle_log_team_card_7_fkey",
+          "tableFrom": "t_battle_log",
+          "tableTo": "m_card",
+          "schemaTo": "public",
+          "columnsFrom": [
+            "team_card_7"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "t_battle_log_team_card_8_fkey": {
+          "name": "t_battle_log_team_card_8_fkey",
+          "tableFrom": "t_battle_log",
+          "tableTo": "m_card",
+          "schemaTo": "public",
+          "columnsFrom": [
+            "team_card_8"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "t_battle_log_team_support_card_fkey": {
+          "name": "t_battle_log_team_support_card_fkey",
+          "tableFrom": "t_battle_log",
+          "tableTo": "m_support_card",
+          "schemaTo": "public",
+          "columnsFrom": [
+            "team_support_card"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "t_battle_log_enemy_card_1_fkey": {
+          "name": "t_battle_log_enemy_card_1_fkey",
+          "tableFrom": "t_battle_log",
+          "tableTo": "m_card",
+          "schemaTo": "public",
+          "columnsFrom": [
+            "opponent_card_1"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "t_battle_log_enemy_card_2_fkey": {
+          "name": "t_battle_log_enemy_card_2_fkey",
+          "tableFrom": "t_battle_log",
+          "tableTo": "m_card",
+          "schemaTo": "public",
+          "columnsFrom": [
+            "opponent_card_2"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "t_battle_log_enemy_card_3_fkey": {
+          "name": "t_battle_log_enemy_card_3_fkey",
+          "tableFrom": "t_battle_log",
+          "tableTo": "m_card",
+          "schemaTo": "public",
+          "columnsFrom": [
+            "opponent_card_3"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "t_battle_log_enemy_card_4_fkey": {
+          "name": "t_battle_log_enemy_card_4_fkey",
+          "tableFrom": "t_battle_log",
+          "tableTo": "m_card",
+          "schemaTo": "public",
+          "columnsFrom": [
+            "opponent_card_4"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "t_battle_log_enemy_card_5_fkey": {
+          "name": "t_battle_log_enemy_card_5_fkey",
+          "tableFrom": "t_battle_log",
+          "tableTo": "m_card",
+          "schemaTo": "public",
+          "columnsFrom": [
+            "opponent_card_5"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "t_battle_log_enemy_card_6_fkey": {
+          "name": "t_battle_log_enemy_card_6_fkey",
+          "tableFrom": "t_battle_log",
+          "tableTo": "m_card",
+          "schemaTo": "public",
+          "columnsFrom": [
+            "opponent_card_6"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "t_battle_log_enemy_card_7_fkey": {
+          "name": "t_battle_log_enemy_card_7_fkey",
+          "tableFrom": "t_battle_log",
+          "tableTo": "m_card",
+          "schemaTo": "public",
+          "columnsFrom": [
+            "opponent_card_7"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "t_battle_log_enemy_card_8_fkey": {
+          "name": "t_battle_log_enemy_card_8_fkey",
+          "tableFrom": "t_battle_log",
+          "tableTo": "m_card",
+          "schemaTo": "public",
+          "columnsFrom": [
+            "opponent_card_8"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "t_battle_log_enemy_support_card_fkey": {
+          "name": "t_battle_log_enemy_support_card_fkey",
+          "tableFrom": "t_battle_log",
+          "tableTo": "m_support_card",
+          "schemaTo": "public",
+          "columnsFrom": [
+            "opponent_support_card"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {},
+      "policies": {},
+      "isRLSEnabled": false
+    },
+    "public.m_card": {
+      "name": "m_card",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name_jp": {
+          "name": "name_jp",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "rarity": {
+          "name": "rarity",
+          "type": "varchar(15)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "elixir": {
+          "name": "elixir",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {},
+      "policies": {},
+      "isRLSEnabled": false
+    },
+    "public.m_support_card": {
+      "name": "m_support_card",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name_jp": {
+          "name": "name_jp",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "rarity": {
+          "name": "rarity",
+          "type": "varchar(15)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {},
+      "policies": {},
+      "isRLSEnabled": false
+    },
+    "public.m_player_stats": {
+      "name": "m_player_stats",
+      "schema": "",
+      "columns": {
+        "player_id": {
+          "name": "player_id",
+          "type": "varchar(20)",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "clan_id": {
+          "name": "clan_id",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "clan_name": {
+          "name": "clan_name",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "current_trophies": {
+          "name": "current_trophies",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "best_trophies": {
+          "name": "best_trophies",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "legacy_best_trophies": {
+          "name": "legacy_best_trophies",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "legacy_best_rank": {
+          "name": "legacy_best_rank",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "legacy_highest_trophies": {
+          "name": "legacy_highest_trophies",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "battle_count": {
+          "name": "battle_count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "win_count": {
+          "name": "win_count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "loss_count": {
+          "name": "loss_count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "league_number": {
+          "name": "league_number",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "league_trophies": {
+          "name": "league_trophies",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "rank": {
+          "name": "rank",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "m_player_stats_player_id_fkey": {
+          "name": "m_player_stats_player_id_fkey",
+          "tableFrom": "m_player_stats",
+          "tableTo": "m_player",
+          "schemaTo": "public",
+          "columnsFrom": [
+            "player_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {},
+      "policies": {},
+      "isRLSEnabled": false
+    },
+    "public.m_player": {
+      "name": "m_player",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "varchar(20)",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name_alt": {
+          "name": "name_alt",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "twitter": {
+          "name": "twitter",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "active": {
+          "name": "active",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {},
+      "policies": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  },
+  "internal": {
+    "tables": {}
+  }
+}

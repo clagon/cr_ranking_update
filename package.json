@@ -7,9 +7,12 @@
 	"type": "commonjs",
 	"main": "index.js",
 	"scripts": {
-		"db:pull": "drizzle-kit pull"
+		"db:pull": "drizzle-kit pull",
+		"db:migrate": "tsx app.ts",
+		"run": "tsx --env-file .env app.ts"
 	},
 	"dependencies": {
+		"csv-parser": "^3.2.0",
 		"drizzle-orm": "^0.44.6",
 		"postgres": "^3.4.7"
 	},
