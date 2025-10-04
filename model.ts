@@ -2,7 +2,7 @@ import * as schema from './drizzle/schema';
 import { setTimeout } from 'timers/promises';
 import { insertBattleLogs, upsertCards, upsertPlayerStats, upsertSupportCards } from './db';
 import { getBattleLog as getBattleLogs, getCards, getPlayerInfo } from './api';
-import { battleLogToBattleLogInsert, cardsToCardInserts, playerInfoToPlayerStats, supportCardsToSupportCardInserts } from './utils';
+import { battleLogToBattleLogInsert, cardsToCardInserts, playerInfoToPlayerStats, supportCardsToSupportCardInserts, toIso } from './utils';
 
 /**
  * カードマスターデータを更新します。APIからカード情報を取得し、データベースを更新します。
@@ -96,8 +96,15 @@ export async function updateBattleLogs(playerIds: string[]) {
 
     // 一括更新
     try {
-        await insertBattleLogs(battleLogDataToInsert);
-        console.log(`Inserted ${battleLogDataToInsert.length} battle logs.`);
+        battleLogDataToInsert.sort(
+            (a, b) => (
+                new Date(toIso(a.battleTime))
+            ).getTime() - (
+                new Date(toIso(b.battleTime))
+            ).getTime()
+        );
+        const ids = await insertBattleLogs(battleLogDataToInsert);
+        console.log(`Inserted ${ids.length} battle logs.`);
     } catch (error) {
         console.error(`Failed to insert battle logs:`, error);
         throw error;

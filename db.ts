@@ -66,7 +66,8 @@ export function insertBattleLogs(battleLogs: typeof schema.tBattleLog.$inferInse
                 schema.tBattleLog.teamId,
                 schema.tBattleLog.battleTime,
             ]
-        });
+        })
+        .returning({ id: schema.tBattleLog.id });
 }
 
 /**
