@@ -45,7 +45,7 @@ export function battleLogToBattleLogInsert(battleLog: BattleLog): typeof schema.
         teamCard7: teamCards[6],
         teamCard8: teamCards[7],
         teamSupportCard: teamPlayer.supportCards[0].id,
-        teamRank: teamPlayer.globalRank || null, // globalRank is 'null' in the type definition
+        teamRank: teamPlayer.globalRank || null,
         opponentId: opponentPlayer.tag.replace('#', ''),
         opponentName: opponentPlayer.name,
         opponentCrown: opponentPlayer.crowns,
@@ -58,13 +58,13 @@ export function battleLogToBattleLogInsert(battleLog: BattleLog): typeof schema.
         opponentCard7: opponentCards[6],
         opponentCard8: opponentCards[7],
         opponentSupportCard: opponentPlayer.supportCards[0].id,
-        opponentRank: opponentPlayer.globalRank || null, // globalRank is 'null' in the type definition
+        opponentRank: opponentPlayer.globalRank || null,
         league: battleLog.leagueNumber,
         battleTime: battleLog.battleTime,
-        opponentClanId: opponentPlayer.clan?.tag.replace('#', '') || null,
-        opponentClanName: opponentPlayer.clan?.name || null,
-        teamClanId: teamPlayer.clan?.tag.replace('#', '') || null,
-        teamClanName: teamPlayer.clan?.name || null,
+        opponentClanId: opponentPlayer.clan ? opponentPlayer.clan.tag.replace('#', '') : null,
+        opponentClanName: opponentPlayer.clan ? opponentPlayer.clan.name : null,
+        teamClanId: teamPlayer.clan ? teamPlayer.clan.tag.replace('#', '') : null,
+        teamClanName: teamPlayer.clan ? teamPlayer.clan.name : null,
     };
 }
 

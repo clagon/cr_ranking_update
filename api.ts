@@ -15,7 +15,6 @@ export async function getCards(): Promise<CardsResponse> {
     }
     return res.json();
 }
-getCards().then(res => console.log(res));
 
 export async function getPlayerInfo(id: string): Promise<PlayerInfo> {
     const URL = `${BASE_URL}/players/%23${id}`;

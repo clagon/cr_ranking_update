@@ -56,7 +56,10 @@ export function insertBattleLogs(battleLogs: typeof schema.tBattleLog.$inferInse
     return db.insert(schema.tBattleLog)
         .values(battleLogs)
         .onConflictDoNothing({
-            target: schema.tBattleLog.battleTime
+            target: [
+                schema.tBattleLog.teamId,
+                schema.tBattleLog.battleTime,
+            ]
         });
 }
 
