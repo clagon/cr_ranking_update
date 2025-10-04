@@ -13,30 +13,38 @@ fs.createReadStream(`${filepath}/texts.csv`)
         console.log(results.map((r: any) => ({ [r.EN]: r.JP })));
     });
 
-getCards()
-    .then(cards => {
-        cards.forEach(card => {
-            if (results.find((r: any) => r.EN === card.name)) {
-                card.nameJp = results.find((r: any) => r.EN === card.name).JP;
-            }
-        })
+Promise.all(
+    [
+        getCards()
+            .then(cards => {
+                cards.forEach(card => {
+                    if (results.find((r: any) => r.EN === card.name)) {
+                        card.nameJp = results.find((r: any) => r.EN === card.name).JP;
+                    }
+                })
 
-        upsertCards(cards);
-    }).catch(err => {
+                return upsertCards(cards)
+            })
+            .then(() => {
+                console.log('Done updating cards');
+            }),
+        getSupportCards()
+            .then(cards => {
+                cards.forEach(card => {
+                    if (results.find((r: any) => r.EN === card.name)) {
+                        card.nameJp = results.find((r: any) => r.EN === card.name).JP;
+                    }
+                })
+
+                return upsertSupportCards(cards)
+            })
+            .then(() => {
+                console.log('Done updating support cards');
+            })
+    ])
+    .catch(err => {
         console.error(err);
+    })
+    .finally(() => {
+        process.exit(0);
     });
-
-getSupportCards()
-    .then(cards => {
-        cards.forEach(card => {
-            if (results.find((r: any) => r.EN === card.name)) {
-                card.nameJp = results.find((r: any) => r.EN === card.name).JP;
-            }
-        })
-
-        upsertSupportCards(cards);
-    }).catch(err => {
-        console.error(err);
-    });
-
-process.exit(0);
