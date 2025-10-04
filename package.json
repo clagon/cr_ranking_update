@@ -1,0 +1,21 @@
+{
+	"name": "cr_ranking_update",
+	"version": "1.0.0",
+	"description": "",
+	"license": "ISC",
+	"author": "",
+	"type": "commonjs",
+	"main": "index.js",
+	"scripts": {
+		"db:pull": "drizzle-kit pull"
+	},
+	"dependencies": {
+		"drizzle-orm": "^0.44.6",
+		"postgres": "^3.4.7"
+	},
+	"devDependencies": {
+		"dotenv": "^17.2.3",
+		"drizzle-kit": "^0.31.5",
+		"tsx": "^4.20.6"
+	}
+}
